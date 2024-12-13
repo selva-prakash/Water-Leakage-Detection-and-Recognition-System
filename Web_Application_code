@@ -1,0 +1,83 @@
+index.php
+
+<?php
+$con=mysqli_connect("localhost","u916859548_iot_project","Edot@2586885","u916859548_iot_project")or die(mysqli_connect_error());
+$sql=mysqli_query($con , "SELECT * FROM `water_leakage`");
+$res=mysqli_fetch_assoc($sql);
+$ip=$res['ip'];
+$op=$res['op'];
+
+if($ip>=90 && $op<=70){
+    $st="Water Leakage";
+}
+else{
+    $st="Normal";
+}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+     <meta http-equiv="refresh"content="5">
+     <head>
+    <title>IOT Based Water Leakage</title>
+    <style>
+     body{
+            background:orange;
+            background-size:cover;
+            color:white;
+            font-size:30px;
+     }
+        label{
+            display:inline-block;
+            text-align:right;
+            width: 400px;
+            padding-right:10%;
+            padding-left:20%;
+        }
+         h2{
+            font-size:40px;
+            padding-left:30%;
+            color:yellow;
+        }
+        input[type='submit']{
+            font-size:30px;
+          
+        }
+      .blink{
+          font-size:50px;
+          background:red;
+          width:fit-content;
+          padding:5px;
+          border-radius:10px;
+      }
+    </style>
+</head>
+  <body><br><br>
+ 
+        <h1><center>IOT Based Water Leakage</h1>
+        <h2>Parameter:</h2>
+         <form  method="GET">
+                        <label>Input Flow</label>:  <?php echo $ip. " l/m";?> <br><br>
+                        <label>Output Flow</label>:  <?php echo $op.  " l/m";?> <br><br>
+        </form>
+        <h2>Status:</h2><center>
+                        <?php echo "<center class='blink'>" .$st. "</center>";?> <br><br>
+               </center>         
+</body>
+</html>
+
+
+
+update.php
+<?php
+ $ip=$_GET['f1'];
+ $op=$_GET['f2'];
+ //$sm=$_GET['sm'];
+ //$light=$_GET['light'];
+
+
+ 
+$db=mysqli_connect("localhost","u916859548_iot_project","Edot@2586885","u916859548_iot_project")or die(mysqli_connect_error());
+    mysqli_query($db," UPDATE `water_leakage` SET `ip`='$ip',`op`='$op'")or die(mysqli_error($db));
+
+?>
